@@ -42,6 +42,7 @@ app.innerHTML = `
         <li>Git tracks changes in my code.</li>
         <li>GitHub stores my project online.</li>
         <li>Vercel deploys my site to the internet.</li>
+        <li>The DOM lets TypeScript find and change parts of the page.</li>
       </ul>
 
       <div class="task-counter">
