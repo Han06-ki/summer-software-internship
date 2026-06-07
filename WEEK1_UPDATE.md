@@ -27,3 +27,7 @@ I am most proud of adding the interactive project log because it makes the page 
 ## Next steps
 
 Next week, I want to keep improving my website and start building more real features. I also want to keep practicing Git commits, GitHub, and deployment.
+
+## Demo note
+
+For my demo, I will explain how I built the site locally, pushed it to GitHub, and deployed it with Vercel.
