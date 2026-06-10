@@ -61,7 +61,7 @@ npm run build
 Vercel URL:
 
 ```text
-PASTE_YOUR_VERCEL_URL_HERE
+https://summer-software-internship-8apa.vercel.app
 ```
 
 ## What I learned
