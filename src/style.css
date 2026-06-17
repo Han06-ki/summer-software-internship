@@ -134,3 +134,31 @@ footer {
     width: 94%;
   }
 }
+.result-box {
+  margin-top: 1rem;
+  padding: 1rem;
+  background: #eef2ff;
+  border-radius: 12px;
+  word-break: break-word;
+}
+
+body.dark .result-box {
+  background: #374151;
+}
+
+.secondary-action {
+  margin-top: 0.75rem;
+  margin-right: 0.5rem;
+  border: 1px solid #2563eb;
+  border-radius: 999px;
+  padding: 0.65rem 0.9rem;
+  background: transparent;
+  color: #2563eb;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+body.dark .secondary-action {
+  color: #93c5fd;
+  border-color: #93c5fd;
+}

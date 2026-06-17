@@ -68,13 +68,33 @@ app.innerHTML = `
       </ul>
     </section>
 
-    <section class="card">
-      <h2>TinyURL Coming Soon</h2>
-      <p>
-        Later in the internship, I plan to build a TinyURL-style app that can shorten links
-        and track saved URLs.
-      </p>
-    </section>
+    <section class="card" id="tinyurl-section">
+  <h2>TinyURL Frontend Prototype</h2>
+  <p>
+    Enter a long URL below and the app will create a fake shortened URL.
+    This is frontend-only, so it does not actually redirect yet.
+  </p>
+
+  <form id="urlForm">
+    <label for="urlInput">Long URL</label>
+    <input id="urlInput" type="url" placeholder="https://example.com" />
+    <button type="submit" class="main-btn">Shorten</button>
+  </form>
+
+  <p id="urlError" class="message"></p>
+
+  <div id="urlResult" class="result-box">
+    <p>No shortened URL yet.</p>
+  </div>
+
+  <button id="copyUrlBtn" class="secondary-action" type="button">Copy short URL</button>
+  <button id="clearHistoryBtn" class="secondary-action" type="button">Clear History</button>
+
+  <h3>History</h3>
+  <ul id="urlHistory">
+    <li>No URLs shortened yet.</li>
+  </ul>
+</section>
 
     <section class="card">
       <h2>What I Learned This Week</h2>
