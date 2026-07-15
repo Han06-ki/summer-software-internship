@@ -75,7 +75,7 @@ app.innerHTML = `
     This is frontend-only, so it does not actually redirect yet.
   </p>
 
-  <form id="urlForm">
+  <form id="urlForm" novalidate>
     <label for="urlInput">Long URL</label>
     <input id="urlInput" type="url" placeholder="https://example.com" />
     <button type="submit" class="main-btn">Shorten</button>
@@ -133,6 +133,68 @@ const goalForm = document.querySelector<HTMLFormElement>('#goalForm');
 const goalInput = document.querySelector<HTMLInputElement>('#goalInput');
 const goalMessage = document.querySelector<HTMLParagraphElement>('#goalMessage');
 const lastUpdated = document.querySelector<HTMLParagraphElement>('#lastUpdated');
+const urlForm = document.querySelector<HTMLFormElement>('#urlForm');
+const urlInput = document.querySelector<HTMLInputElement>('#urlInput');
+const urlError = document.querySelector<HTMLParagraphElement>('#urlError');
+const urlResult = document.querySelector<HTMLDivElement>('#urlResult');
+const copyUrlBtn = document.querySelector<HTMLButtonElement>('#copyUrlBtn');
+const clearHistoryBtn = document.querySelector<HTMLButtonElement>('#clearHistoryBtn');
+const urlHistory = document.querySelector<HTMLUListElement>('#urlHistory');
+
+type ShortenedUrl = {
+  shortCode: string;
+  longUrl: string;
+  createdAt: string;
+};
+
+const urls: ShortenedUrl[] = [];
+
+let latestShortCode = '';
+
+function isValidUrl(value: string): boolean {
+  try {
+    const url = new URL(value);
+
+    return url.protocol === 'http:' || url.protocol === 'https:';
+  } catch {
+    return false;
+  }
+}
+
+
+function generateShortCode(length: number = 6): string {
+  const alphabet =
+    'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+
+  let code = '';
+
+  for (let i = 0; i < length; i++) {
+    const index = Math.floor(Math.random() * alphabet.length);
+    code += alphabet[index];
+  }
+
+  return code;
+}
+
+function renderHistory(): void {
+  if (!urlHistory) return;
+
+  urlHistory.innerHTML = '';
+
+  if (urls.length === 0) {
+    urlHistory.innerHTML = '<li>No URLs shortened yet.</li>';
+    return;
+  }
+
+  urls.forEach((record) => {
+    const item = document.createElement('li');
+
+    item.textContent =
+      `${record.longUrl} → https://tiny.fake/${record.shortCode}`;
+
+    urlHistory.appendChild(item);
+  });
+}
 
 let completedTasks = 0;
 
@@ -183,6 +245,80 @@ if (logForm && logInput) {
 
     addLogEntry(entry);
     logInput.value = '';
+  });
+}
+
+if (urlForm && urlInput && urlError && urlResult) {
+  urlForm.addEventListener('submit', (event) => {
+    event.preventDefault();
+
+    const longUrl = urlInput.value.trim();
+
+    if (!isValidUrl(longUrl)) {
+      urlError.textContent =
+        'Please enter a valid URL starting with http:// or https://';
+      return;
+    }
+
+    urlError.textContent = '';
+
+    const shortCode = generateShortCode();
+
+    const record: ShortenedUrl = {
+      shortCode,
+      longUrl,
+      createdAt: new Date().toISOString(),
+    };
+
+  urls.push(record);
+latestShortCode = shortCode;
+
+const shortUrl = `https://tiny.fake/${shortCode}`;
+
+urlResult.innerHTML = `
+  <p><strong>Short URL:</strong> ${shortUrl}</p>
+  <p><strong>Original URL:</strong> ${longUrl}</p>
+`;
+    urlInput.value = '';
+
+    renderHistory();
+  });
+}
+
+if (copyUrlBtn) {
+  copyUrlBtn.addEventListener('click', async () => {
+    if (!latestShortCode) {
+      alert('No short URL to copy yet.');
+      return;
+    }
+
+    const foundUrl = urls.find((url) => url.shortCode === latestShortCode);
+
+    if (!foundUrl) {
+      alert('Could not find the latest short URL.');
+      return;
+    }
+
+    const shortUrl = `https://tiny.fake/${foundUrl.shortCode}`;
+
+    await navigator.clipboard.writeText(shortUrl);
+
+    alert('Short URL copied.');
+  });
+}
+
+if (clearHistoryBtn && urlResult && urlError) {
+  clearHistoryBtn.addEventListener('click', () => {
+    urls.length = 0;
+    latestShortCode = '';
+
+    urlError.textContent = '';
+
+    urlResult.innerHTML = `
+      <p>No shortened URL yet.</p>
+    `;
+
+    renderHistory();
   });
 }
 
