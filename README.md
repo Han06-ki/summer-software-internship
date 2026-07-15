@@ -67,3 +67,23 @@ https://summer-software-internship-8apa.vercel.app
 ## What I learned
 
 I learned how HTML, CSS, and TypeScript work together to create a website. I also learned how Vite runs the site locally and how GitHub and Vercel help get the project online.
+
+## Week 2 Progress
+
+For Week 2, I built a TinyURL frontend prototype. The page lets a user enter a long URL, validates the input, creates a fake short URL, displays the result, copies the short URL, clears history, and shows a list of shortened URLs.
+
+This is still frontend-only, so the fake short URLs do not redirect yet and the data only exists while the page is open.
+
+### Week 2 features
+
+- TinyURL frontend design doc
+- URL input form
+- URL validation
+- Fake short code generator
+- Result display
+- Copy short URL button
+- Clear History button
+- History list
+- Custom TypeScript `ShortenedUrl` type
+- Array storage for URL records
+- `.find` lookup practice
